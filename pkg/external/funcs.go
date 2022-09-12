@@ -243,9 +243,6 @@ func GetKeystoneServiceWithName(
 	ks := &keystonev1.KeystoneService{}
 	err := h.GetClient().Get(ctx, types.NamespacedName{Name: name, Namespace: namespace}, ks)
 	if err != nil {
-		if k8s_errors.IsNotFound(err) {
-			return ks, err
-		}
 		return ks, err
 	}
 
