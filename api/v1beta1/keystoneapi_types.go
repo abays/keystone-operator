@@ -266,8 +266,8 @@ type KeystoneFederationSpec struct {
 	OIDCMemCacheServers string `json:"oidcMemCacheServers"`
 
 	// +kubebuilder:validation:Optional
-	// OIDCRedirectURI
-	OIDCRedirectURI string `json:"oidcRedirectURI"`
+	// KeystoneFederationIdentityProviderName
+	KeystoneFederationIdentityProviderName string `json:"KeystoneFederationIdentityProviderName,omitempty"`
 }
 
 // KeystoneAPIStatus defines the observed state of KeystoneAPI
