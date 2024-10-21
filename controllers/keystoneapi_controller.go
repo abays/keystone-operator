@@ -1222,7 +1222,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 				h,
 				instance.Spec.PasswordSelectors.KeystoneOIDCClientSecret,
 				10*time.Second,
-				"KeystoneOIDCClientSecret")
+				"KeystoneClientSecret")
 			if err != nil {
 				return err
 			}
@@ -1232,7 +1232,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 				h,
 				instance.Spec.PasswordSelectors.KeystoneOIDCCryptoPassphrase,
 				10*time.Second,
-				"KeystoneOIDCCryptoPassphrase")
+				"KeystoneCryptoPassphrase")
 			if err != nil {
 				return err
 			}
