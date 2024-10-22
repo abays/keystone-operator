@@ -132,8 +132,8 @@ type KeystoneAPISpecCore struct {
 	FernetMaxActiveKeys *int32 `json:"fernetMaxActiveKeys"`
 
 	// +kubebuilder:validation:Optional
-	// +kubebuilder:default={admin: AdminPassword}
-	// PasswordSelectors - Selectors to identify the AdminUser password from the Secret
+	// +kubebuilder:default={admin: AdminPassword, keystoneOIDCClientSecret: KeystoneClientSecret, keystoneOIDCCryptoPassphrase: KeystoneCryptoPassphrase}
+	// PasswordSelectors - Selectors to identify the AdminUser, KeystoneOIDCClient, and KeystoneOIDCCryptoPassphrase passwords from the Secret
 	PasswordSelectors PasswordSelector `json:"passwordSelectors"`
 
 	// +kubebuilder:validation:Optional
