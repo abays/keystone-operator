@@ -1193,6 +1193,8 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 		"enableSecureRBAC": instance.Spec.EnableSecureRBAC,
 		"enableFederation": instance.Spec.EnableFederation,
 	}
+	// TODO(d34dh0r53): Delete this, just for development
+	Log := r.GetLogger(ctx)
 
 	if instance.Spec.EnableFederation {
 		federationParameters := map[string]interface{}{
@@ -1226,6 +1228,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 			if err != nil {
 				return err
 			}
+			Log.Info("OIDCClientSecret:", oidcClientSecret)
 
 			oidcCryptoPassphrase, _, err := oko_secret.GetDataFromSecret(
 				ctx,
@@ -1236,6 +1239,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 			if err != nil {
 				return err
 			}
+			Log.Info("OIDCCryptoPassphrase:", oidcCryptoPassphrase)
 
 			endptConfig["EnableFederation"] = true
 			endptConfig["OIDCClaimPrefix"] = instance.Spec.OIDCFederation.OIDCClaimPrefix
