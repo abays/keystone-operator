@@ -1190,15 +1190,17 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 			instance.Status.DatabaseHostname,
 			keystone.DatabaseName,
 		),
-		"enableSecureRBAC": instance.Spec.EnableSecureRBAC,
-		"enableFederation": instance.Spec.EnableFederation,
+		"enableSecureRBAC":    instance.Spec.EnableSecureRBAC,
+		"enableFederation":    instance.Spec.EnableFederation,
+		"enableKeystoneDebug": instance.Spec.EnableKeystoneDebug,
+		"enableInsecureDebug": instance.Spec.EnableInsecureDebug,
 	}
 
 	if instance.Spec.EnableFederation {
 		federationParameters := map[string]interface{}{
 			"federationTrustedDashboard": fmt.Sprintf("https://%s-%s.%s.svc/dashboard/auth/websso/",
 				instance.Name, service.EndpointPublic, instance.Namespace),
-			"federationRemoteIDAttribute": instance.Spec.OIDCFederation.OIDCClaimPrefix,
+			"federationRemoteIDAttribute": instance.Spec.OIDCFederation.RemoteIDAttribute,
 		}
 		maps.Copy(templateParameters, federationParameters)
 	}
@@ -1231,6 +1233,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 			endptConfig["OIDCResponseType"] = instance.Spec.OIDCFederation.OIDCResponseType
 			endptConfig["OIDCScope"] = instance.Spec.OIDCFederation.OIDCScope
 			endptConfig["OIDCProviderMetadataURL"] = instance.Spec.OIDCFederation.OIDCProviderMetadataURL
+			endptConfig["OIDCIntrospectionEndpoint"] = instance.Spec.OIDCFederation.OIDCIntrospectionEndpoint
 			endptConfig["OIDCClientID"] = instance.Spec.OIDCFederation.OIDCClientID
 			endptConfig["OIDCClientSecret"] = string(ospSecret.Data[instance.Spec.PasswordSelectors.KeystoneOIDCClientSecret])
 			endptConfig["OIDCCryptoPassphrase"] = string(ospSecret.Data[instance.Spec.PasswordSelectors.KeystoneOIDCCryptoPassphrase])
@@ -1240,6 +1243,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 			endptConfig["OIDCCacheType"] = instance.Spec.OIDCFederation.OIDCCacheType
 			endptConfig["OIDCMemCacheServers"] = mc.GetMemcachedServerListString()
 			endptConfig["KeystoneFederationIdentityProviderName"] = instance.Spec.OIDCFederation.KeystoneFederationIdentityProviderName
+			endptConfig["KeystoneEndpoint"], _ = instance.GetEndpoint(endpoint.EndpointPublic)
 		}
 		httpdVhostConfig[endpt.String()] = endptConfig
 	}

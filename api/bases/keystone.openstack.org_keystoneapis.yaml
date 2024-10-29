@@ -88,6 +88,15 @@ spec:
                 default: false
                 description: Enablement of Federation configuration
                 type: boolean
+              enableInsecureDebug:
+                default: false
+                description: Turn on Keystone insecure_debug logging This may log
+                  plaintext passwords and should not be used in production
+                type: boolean
+              enableKeystoneDebug:
+                default: false
+                description: Turn on Keystone debug logging
+                type: boolean
               enableSecureRBAC:
                 default: true
                 description: EnableSecureRBAC - Enable Consistent and Secure RBAC
@@ -140,12 +149,16 @@ spec:
                     description: OIDCClaimDelimiter
                     type: string
                   oidcClaimPrefix:
-                    default: OIDC-iss
+                    default: OIDC-
                     description: OIDCClaimPrefix
                     type: string
                   oidcClientID:
                     default: ""
                     description: OIDCClientID
+                    type: string
+                  oidcIntrospectionEndpoint:
+                    default: ""
+                    description: OIDCIntrospectionEndpoint
                     type: string
                   oidcMemCacheServers:
                     description: OIDCMemCacheServers
@@ -170,6 +183,10 @@ spec:
                     default: openid email profile
                     description: OIDCScope
                     type: string
+                  remoteIDAttribute:
+                    default: HTTP_OIDC_ISS
+                    description: RemoteIDAttribute
+                    type: string
                 required:
                 - oidcCacheType
                 - oidcClaimDelimiter
@@ -179,6 +196,7 @@ spec:
                 - oidcPassUserInfoAs
                 - oidcResponseType
                 - oidcScope
+                - remoteIDAttribute
                 type: object
               override:
                 description: Override, provides the ability to override the generated
@@ -500,6 +518,8 @@ spec:
             required:
             - containerImage
             - databaseInstance
+            - enableInsecureDebug
+            - enableKeystoneDebug
             - memcachedInstance
             - rabbitMqClusterName
             - secret

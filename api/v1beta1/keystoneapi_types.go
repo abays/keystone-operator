@@ -186,6 +186,17 @@ type KeystoneAPISpecCore struct {
 	// Enablement of Federation configuration
 	EnableFederation bool `json:"enableFederation"`
 
+	// +kubebuilder:validaton:Optional
+	// +kubebuilder:default=false
+	// Turn on Keystone debug logging
+	EnableKeystoneDebug bool `json:"enableKeystoneDebug"`
+
+	// +kubebuilder:validaton:Optional
+	// +kubebuilder:default=false
+	// Turn on Keystone insecure_debug logging
+	// This may log plaintext passwords and should not be used in production
+	EnableInsecureDebug bool `json:"enableInsecureDebug"`
+
 	// +kubebuilder:validation:Optional
 	// +OIDCFederation - parameters to configure keystone for OIDC federation
 	OIDCFederation KeystoneFederationSpec `json:"oidcFederation,omitempty"`
@@ -219,7 +230,7 @@ type PasswordSelector struct {
 // KeystoneFederationSpec to provide the configuration values for OIDC Federation
 type KeystoneFederationSpec struct {
 	// +kubebuilder:validation:Required
-	// +kubebuilder:default="OIDC-iss"
+	// +kubebuilder:default="OIDC-"
 	// OIDCClaimPrefix
 	OIDCClaimPrefix string `json:"oidcClaimPrefix"`
 
@@ -237,6 +248,11 @@ type KeystoneFederationSpec struct {
 	// +kubebuilder:default=""
 	// OIDCProviderMetadataURL
 	OIDCProviderMetadataURL string `json:"oidcProviderMetadataURL,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// +kubebuilder:default=""
+	// OIDCIntrospectionEndpoint
+	OIDCIntrospectionEndpoint string `json:"oidcIntrospectionEndpoint,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:default=""
@@ -266,6 +282,11 @@ type KeystoneFederationSpec struct {
 	// +kubebuilder:validaton:Required
 	// OIDCMemCacheServers
 	OIDCMemCacheServers string `json:"oidcMemCacheServers"`
+
+	// +kubebuilder:validation:Required
+	// +kubebuilder:default="HTTP_OIDC_ISS"
+	// RemoteIDAttribute
+	RemoteIDAttribute string `json:"remoteIDAttribute"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:default=""
