@@ -255,7 +255,9 @@ func (r *KeystoneAPIReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	}
 
 	// Handle non-deleted clusters
-	return r.reconcileNormal(ctx, instance, helper)
+	ctlResult, err := r.reconcileNormal(ctx, instance, helper)
+
+	return ctlResult, err
 }
 
 // fields to index to reconcile when change
